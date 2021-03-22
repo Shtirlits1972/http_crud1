@@ -4,6 +4,7 @@ import 'package:http_crud1/model/country/country.dart';
 import 'add_edit_country.dart';
 import 'country_crud.dart';
 import 'package:http_crud1/Ut.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CountryForm extends StatefulWidget {
   CountryForm({Key key}) : super(key: key);
@@ -14,7 +15,7 @@ class CountryForm extends StatefulWidget {
 
 class _CountryFormState extends State<CountryForm> {
   // ignore: deprecated_member_use
- // List<Country> countries = List<Country>();
+  // List<Country> countries = List<Country>();
   int selctIndex = -1;
   int selctId = 0;
   ScrollController scr = ScrollController();
@@ -51,12 +52,24 @@ class _CountryFormState extends State<CountryForm> {
           FloatingActionButton(
             tooltip: 'Delete Country',
             onPressed: () async {
-              if (await confirm(context,
-                  title: Text('Warning'), content: Text('want to delete?'))) {
-                delete(selctId);
-                return print('pressedOK id = ' + selctIndex.toString());
+              if (selctIndex > -1) {
+                if (await confirm(context,
+                    title: Text('Warning'), content: Text('want to delete?'))) {
+                  delete(selctId);
+                  return print('pressedOK id = ' + selctIndex.toString());
+                }
+                return print('pressedCancel');
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Select Item For delete",
+                    toastLength: Toast.LENGTH_SHORT,
+                    // gravity: ToastGravity.CENTER,
+                    // timeInSecForIosWeb: 1,
+                    // backgroundColor: Colors.red,
+                    // textColor: Colors.white,
+                    // fontSize: 16.0
+                    );
               }
-              return print('pressedCancel');
             },
             child: Icon(Icons.remove),
           ),
@@ -108,6 +121,7 @@ class _CountryFormState extends State<CountryForm> {
       itemCount: Ut.countries.length,
       itemBuilder: (context, index) {
         return Container(
+          color: Colors.grey.withOpacity(0.3),
           margin: EdgeInsets.only(top: 2),
           child: ListTile(
             leading: ClipRect(
@@ -141,7 +155,6 @@ class _CountryFormState extends State<CountryForm> {
               onTap: () {
                 selctId = f.id;
               },
-
               selectedTileColor: Colors.lightGreen,
               tileColor: Colors.grey,
               title: Text(f.countryName),
