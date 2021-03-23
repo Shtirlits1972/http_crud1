@@ -4,7 +4,7 @@ import 'package:http_crud1/model/country/country.dart';
 import 'add_edit_country.dart';
 import 'country_crud.dart';
 import 'package:http_crud1/Ut.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 class CountryForm extends StatefulWidget {
   CountryForm({Key key}) : super(key: key);
@@ -60,15 +60,20 @@ class _CountryFormState extends State<CountryForm> {
                 }
                 return print('pressedCancel');
               } else {
-                Fluttertoast.showToast(
-                    msg: "Select Item For delete",
-                    toastLength: Toast.LENGTH_SHORT,
-                    // gravity: ToastGravity.CENTER,
-                    // timeInSecForIosWeb: 1,
-                    // backgroundColor: Colors.red,
-                    // textColor: Colors.white,
-                    // fontSize: 16.0
-                    );
+                showMyDialog('Select Item For delete!');
+                // final snackbar = SnackBar(
+                //   content: Text('Select Item For delete!'),
+                //   duration: Duration(seconds: 1),
+                // );
+
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   snackbar,
+                // );
+
+                // await confirm(context,
+                //     title: Text('Warning'),
+                //     content: Text('Select Item For delete!'),
+                //     textCancel: Text(''));
               }
             },
             child: Icon(Icons.remove),
@@ -144,6 +149,33 @@ class _CountryFormState extends State<CountryForm> {
       },
     );
     return listWiev;
+  }
+
+  Future<void> showMyDialog(String txtAlert) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Warning!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(txtAlert),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   List<Widget> _buildList() {

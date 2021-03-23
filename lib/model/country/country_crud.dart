@@ -11,7 +11,7 @@ class CountryCrud {
     List<Country> list = List<Country>();
 
     try {
-      var response = await http.get(Uri.http(host, '/CountryM/GetData'));
+      var response = await http.get(Uri.http(host, '/Country/GetData'));
 
       if (response.statusCode == 200) {
         var allData = (json.decode(response.body) as List<dynamic>);
@@ -37,7 +37,7 @@ class CountryCrud {
 
   Future<Country> add(String countryName) async {
     final response = await http.post(
-      Uri.http(host, '/CountryM/Add'),
+      Uri.http(host, '/Country/Add'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -54,7 +54,7 @@ class CountryCrud {
 
   Future<bool> delete(int id) async {
     final response =
-        await http.post(Uri.http(host, '/CountryM/Del', {'id': id.toString()}));
+        await http.post(Uri.http(host, '/Country/Del', {'id': id.toString()}));
 
     if (response.statusCode == 200) {
       return true;
